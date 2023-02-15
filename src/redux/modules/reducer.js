@@ -6,16 +6,16 @@ const MOVE = 'move';
 //초기값
 const initialState = [
   {
-    id: 1,
-    title: '리액트 강의보기',
-    body: '챕터 1부터 챕터 12까지 학습',
+    id: 0,
+    title: '너 바보니?',
+    content: '웅 나 바보야',
     isDone: false,
   },
   {
-    id: 2,
-    title: '점심 먹기',
-    body: '점심 뭐먹지..?',
-    isDone: false,
+    id: 1,
+    title: '똑바로해',
+    body: '웅..?',
+    isDone: true,
   },
 ];
 
@@ -52,7 +52,7 @@ const todolist = (state = initialState, action) => {
     case ADD:
       return [
         ...state,
-        { id: Date.now() + 1, title: action.title, content: action.content, isDone: false },
+        { id: Date.now(), title: action.title, content: action.content, isDone: false },
       ];
     case DEL:
       return state.filter((item) => item.id !== action.id);
@@ -69,3 +69,5 @@ const todolist = (state = initialState, action) => {
 };
 
 export default todolist;
+
+//값을 return하면 그 자리에 리턴값만 남고 뿅 사라진다.(리턴문 구역만{})
