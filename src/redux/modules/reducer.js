@@ -14,7 +14,7 @@ const initialState = [
   {
     id: 1,
     title: '똑바로해',
-    body: '웅..?',
+    content: '미안',
     isDone: true,
   },
 ];
