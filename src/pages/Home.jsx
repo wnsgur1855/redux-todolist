@@ -21,17 +21,34 @@ import styled from 'styled-components';
 //forEach
 
 const StmyTodoList = styled.div`
+  width: 90%;
+  height: 50px;
+  margin-left: 20px;
+  font-size: x-large;
+  font-family: 'Courier New', Courier, monospace;
   display: flex;
   justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 128, 0.5);
+  border-radius: 500px;
 `;
 
 const StAllBox = styled.div`
-  margin-top: 30px;
+  width: 90%;
+  height: 80%;
+  margin-top: 10px;
+  margin-left: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   border: 3px solid;
   border-radius: 20px;
+`;
+
+const StP = styled.p`
+  font-family: 'KyoboHandwriting2021sjy';
+
+  margin-bottom: 25px;
 `;
 
 const StTitleContentBox = styled.div`
@@ -47,7 +64,9 @@ const StInputBox = styled.input`
   margin-bottom: 10px;
 `;
 const StAddButton = styled.button`
+  font-family: 'KyoboHandwriting2021sjy';
   display: block;
+  background-color: rgba(255, 255, 128, 0.5);
   margin-top: 10px;
   margin-left: 150px;
   width: 100px;
@@ -55,14 +74,28 @@ const StAddButton = styled.button`
   font-size: 1.1rem;
   color: red;
   align-items: center;
+  border-radius: 20px;
+  border: none;
+  &:hover {
+    background-color: purple;
+    cursor: pointer;
+  }
+`;
+
+const StWorkingDoneBox = styled.div`
+  margin-left: 20px;
+  margin-top: 10px;
+  width: 90%;
+  height: 80%;
+  background-color: wheat;
+  border: 3px solid yellow;
+  border-radius: 20px;
 `;
 
 const StIngBox = styled.div`
   width: 1000px;
   height: 200px;
-  background-color: red;
-  border: 5px solid;
-  border-radius: 50px;
+
   display: flex;
   text-align: center;
 `;
@@ -71,35 +104,43 @@ const StMapBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 3px solid blue;
+  border: 3px solid purple;
   width: 200px;
   height: 170px;
-  background-color: white;
-
+  background-color: rgba(255, 255, 128, 0.5);
+  border-radius: 20px;
   margin: 10px 10px 10px 10px;
+`;
+
+const StWorkingDone = styled.h2`
+  margin-left: 10px;
 `;
 
 const StMapButtons = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  border: 3px solid;
+  padding: 10px;
   justify-content: space-between;
   border-radius: 20px;
 `;
 
+const StOneButton = styled.button`
+  width: 20px;
+  height: 20px;
+  border-radius: 70px;
+  background-color: rgba(255, 255, 128, 0.5);
+  border: none;
+  font-size: large;
+`;
+
 const StMapInputBox = styled.h3`
+  font-family: 'KyoboHandwriting2021sjy';
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 `;
-
-const fontsize = {
-  width: '10px',
-  height: '10px',
-};
-
-const detailBox = {};
 
 function Home() {
   const [title, setTitle] = useState('');
@@ -159,80 +200,81 @@ function Home() {
       <StmyTodoList>My Todo List</StmyTodoList>
       <StAllBox>
         <StTitleContentBox>
-          <p>제목 </p>
+          <StP>제목 </StP>
           <StInputBox value={title} onChange={handleTitleChange} type="text" /> &nbsp;
         </StTitleContentBox>
         <StTitleContentBox>
-          <p>내용</p>
+          <StP>내용</StP>
           <StInputBox value={content} onChange={handleContentChange} type="text" />{' '}
         </StTitleContentBox>
 
         <StAddButton onClick={handleAdd}>추가</StAddButton>
       </StAllBox>
-      <div>
-        <h2>Working..</h2>
-        <StIngBox>
-          {data.map((item) => {
-            if (item.isDone === false) {
+      <StWorkingDoneBox>
+        <div>
+          <StWorkingDone>Working..😎</StWorkingDone>
+          <StIngBox>
+            {data.map((item) => {
+              if (item.isDone === false) {
+                return (
+                  <StMapBox key={item.id}>
+                    <StMapInputBox>{item.title}</StMapInputBox>
+                    <StMapInputBox>{item.content}</StMapInputBox>
+                    <StMapButtons>
+                      <StOneButton onClick={() => handleDel(item.id)}>❌</StOneButton>
+                      <StOneButton
+                        onClick={() => {
+                          movehandler(item.id, item.isDone);
+                        }}
+                      >
+                        ⭕
+                      </StOneButton>
+                      <StOneButton
+                        onClick={() => {
+                          navigate(`/${item.id}`);
+                        }}
+                      >
+                        🐶
+                      </StOneButton>
+                    </StMapButtons>
+                  </StMapBox>
+                );
+              }
+            })}
+          </StIngBox>
+        </div>
+        <>
+          <StWorkingDone>Done..😌</StWorkingDone>
+          {data.map((item, i) => {
+            if (item.isDone === true) {
               return (
                 <StMapBox key={item.id}>
                   <StMapInputBox>{item.title}</StMapInputBox>
                   <StMapInputBox>{item.content}</StMapInputBox>
                   <StMapButtons>
-                    <button onClick={() => handleDel(item.id)}>삭제</button>
-                    <button
+                    <StOneButton onClick={() => handleDel(data[i].id)}>❌</StOneButton>
+                    <StOneButton
                       onClick={() => {
-                        movehandler(item.id, item.isDone);
+                        movehandler(data[i].id, data[i].isDone);
                       }}
                     >
-                      추가
-                    </button>
-                    <button
-                      style={detailBox}
+                      ⭕
+                    </StOneButton>
+                    <StOneButton
                       onClick={() => {
                         navigate(`/${item.id}`);
+                        //navigate('/detail/${item.id}');
                       }}
                     >
-                      상세페이지
-                    </button>
+                      🐶
+                    </StOneButton>
                   </StMapButtons>
                 </StMapBox>
               );
             }
           })}
-        </StIngBox>
-      </div>
-      ------------------------------------------------------------
-      <>
-        <h2>Done</h2>
-        {data.map((item, i) => {
-          if (item.isDone === true) {
-            return (
-              <StMapBox key={item.id}>
-                <div style={fontsize}>{item.title}</div>
-                <h6 style={fontsize}>{item.content}</h6>
-                <button onClick={() => handleDel(data[i].id)}>삭제</button>
-                <button
-                  onClick={() => {
-                    movehandler(data[i].id, data[i].isDone);
-                  }}
-                >
-                  추가
-                </button>
-                <button
-                  style={detailBox}
-                  onClick={() => {
-                    navigate(`/${item.id}`);
-                    //navigate('/detail/${item.id}');
-                  }}
-                >
-                  상세페이지
-                </button>
-              </StMapBox>
-            );
-          }
-        })}
-      </>
+        </>
+      </StWorkingDoneBox>
     </div>
   );
 }
