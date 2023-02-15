@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { createAdd } from '../redux/modules/reducer';
 import { createDel } from '../redux/modules/reducer';
 import { moveDodone } from '../redux/modules/reducer';
+import styled from 'styled-components';
 
 //배열을 접근하는 방법
 /*[
@@ -19,23 +20,79 @@ import { moveDodone } from '../redux/modules/reducer';
 //...
 //forEach
 
-const largeBox = {
-  width: '1000px',
-  height: '200px',
-  backgroundColor: 'red',
-  border: '5px solid',
-  borderRadius: '50px',
-  display: 'flex',
-  textAlign: 'center',
-};
+const StmyTodoList = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
-const smallBox = {
-  border: '3px solid blue',
-  width: '200px',
-  height: '200px',
-  backgroundColor: 'white',
-  borderRadius: '50px',
-};
+const StAllBox = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 3px solid;
+  border-radius: 20px;
+`;
+
+const StTitleContentBox = styled.div`
+  gap: 10px;
+  display: flex;
+  margin-top: 10px;
+`;
+
+const StInputBox = styled.input`
+  display: flex;
+  justify-content: center;
+  border-radius: 20px;
+  margin-bottom: 10px;
+`;
+const StAddButton = styled.button`
+  display: block;
+  margin-top: 10px;
+  margin-left: 150px;
+  width: 100px;
+  height: 40px;
+  font-size: 1.1rem;
+  color: red;
+  align-items: center;
+`;
+
+const StIngBox = styled.div`
+  width: 1000px;
+  height: 200px;
+  background-color: red;
+  border: 5px solid;
+  border-radius: 50px;
+  display: flex;
+  text-align: center;
+`;
+
+const StMapBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 3px solid blue;
+  width: 200px;
+  height: 170px;
+  background-color: white;
+
+  margin: 10px 10px 10px 10px;
+`;
+
+const StMapButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  border: 3px solid;
+  justify-content: space-between;
+  border-radius: 20px;
+`;
+
+const StMapInputBox = styled.h3`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const fontsize = {
   width: '10px',
@@ -47,6 +104,7 @@ const detailBox = {};
 function Home() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+
   //-----------------------------------------------------------------------------
   //useSelector사용으로 store들어가는 열쇠 생김 store만든정보를 가져온다
   const data = useSelector((state) => {
@@ -69,9 +127,14 @@ function Home() {
     setContent(e.target.value);
   };
   //-----------------------------------------------------------------------------
-  //추가버튼
+  //추가버튼 //input값이 있을때만 출력----------------------------------------
   const handleAdd = () => {
-    dispatch(createAdd(title, content));
+    if (title == '' || content == '') {
+      alert('입력해');
+    } else dispatch(createAdd(title, content));
+    //추가하고나서 초기화 작업
+    setTitle('');
+    setContent('');
   };
   //hadleAdd에 인자값을 안 넣어준 이유는 밑에서 안 넣어줬기 때문에
   //-----------------------------------------------------------------------------
@@ -93,83 +156,83 @@ function Home() {
   //순서 : input을 만들고 전달해야할 값을 dispatch로 전달 (액션생성함수를 받는다) -> 리듀서로 넘긴다 -> action이 받는다. ->type을 확인하고 그 안으로 들어가서 return한다.
   return (
     <div>
-      <div className="topContainer">
-        <div>My Todo List</div>
-        <div>React</div>
-      </div>
-      <div className="title">
-        제목 &nbsp;
-        <input value={title} onChange={handleTitleChange} className="inputter" type="text" /> &nbsp;
-        내용 &nbsp;
-        <input
-          value={content}
-          onChange={handleContentChange}
-          className="inputter"
-          type="text"
-        />{' '}
-        &nbsp;
-        <button onClick={handleAdd}>추가</button>
-      </div>
+      <StmyTodoList>My Todo List</StmyTodoList>
+      <StAllBox>
+        <StTitleContentBox>
+          <p>제목 </p>
+          <StInputBox value={title} onChange={handleTitleChange} type="text" /> &nbsp;
+        </StTitleContentBox>
+        <StTitleContentBox>
+          <p>내용</p>
+          <StInputBox value={content} onChange={handleContentChange} type="text" />{' '}
+        </StTitleContentBox>
+
+        <StAddButton onClick={handleAdd}>추가</StAddButton>
+      </StAllBox>
       <div>
         <h2>Working..</h2>
-        <div style={largeBox}>
-          {data.map((item, i) => {
+        <StIngBox>
+          {data.map((item) => {
             if (item.isDone === false) {
               return (
-                <div style={smallBox} key={item.id}>
-                  <div style={fontsize}>{item.title}</div>
-                  <h6 style={fontsize}>{item.content}</h6>
-                  <button onClick={() => handleDel(data[i].id)}>삭제</button>
-                  <button
-                    onClick={() => {
-                      movehandler(data[i].id, data[i].isDone);
-                    }}
-                  >
-                    추가
-                  </button>
-                  <button
-                    style={detailBox}
-                    onClick={() => {
-                      navigate(`/${item.id}`);
-                      //navigate('/detail/${item.id}');
-                    }}
-                  >
-                    상세페이지
-                  </button>
-                </div>
+                <StMapBox key={item.id}>
+                  <StMapInputBox>{item.title}</StMapInputBox>
+                  <StMapInputBox>{item.content}</StMapInputBox>
+                  <StMapButtons>
+                    <button onClick={() => handleDel(item.id)}>삭제</button>
+                    <button
+                      onClick={() => {
+                        movehandler(item.id, item.isDone);
+                      }}
+                    >
+                      추가
+                    </button>
+                    <button
+                      style={detailBox}
+                      onClick={() => {
+                        navigate(`/${item.id}`);
+                      }}
+                    >
+                      상세페이지
+                    </button>
+                  </StMapButtons>
+                </StMapBox>
               );
             }
           })}
-        </div>
+        </StIngBox>
       </div>
-      <h1>Done</h1>
-      {data.map((item, i) => {
-        if (item.isDone === true) {
-          return (
-            <div style={smallBox} key={item.id}>
-              <div style={fontsize}>{item.title}</div>
-              <h6 style={fontsize}>{item.content}</h6>
-              <button onClick={() => handleDel(data[i].id)}>삭제</button>
-              <button
-                onClick={() => {
-                  movehandler(data[i].id, data[i].isDone);
-                }}
-              >
-                추가
-              </button>
-              <button
-                style={detailBox}
-                onClick={() => {
-                  navigate('/detail');
-                  //navigate('/detail/${item.id}');
-                }}
-              >
-                상세페이지
-              </button>
-            </div>
-          );
-        }
-      })}
+      ------------------------------------------------------------
+      <>
+        <h2>Done</h2>
+        {data.map((item, i) => {
+          if (item.isDone === true) {
+            return (
+              <StMapBox key={item.id}>
+                <div style={fontsize}>{item.title}</div>
+                <h6 style={fontsize}>{item.content}</h6>
+                <button onClick={() => handleDel(data[i].id)}>삭제</button>
+                <button
+                  onClick={() => {
+                    movehandler(data[i].id, data[i].isDone);
+                  }}
+                >
+                  추가
+                </button>
+                <button
+                  style={detailBox}
+                  onClick={() => {
+                    navigate(`/${item.id}`);
+                    //navigate('/detail/${item.id}');
+                  }}
+                >
+                  상세페이지
+                </button>
+              </StMapBox>
+            );
+          }
+        })}
+      </>
     </div>
   );
 }
