@@ -38,11 +38,10 @@ export const createDel = (id) => {
 };
 
 //----------------------------------------------
-export const moveDodone = (id, isDone) => {
+export const moveDodone = (payload) => {
   return {
     type: MOVE,
-    id,
-    isDone,
+    payload,
   };
 };
 
