@@ -8,7 +8,7 @@ const initialState = [
   {
     id: 0,
     title: '너 바보니?',
-    content: '웅 나 바보야',
+    content: '엉 나 바보야',
     isDone: false,
   },
   {
@@ -58,6 +58,8 @@ const todolist = (state = initialState, action) => {
       return state.filter((item) => item.id !== action.id);
     case MOVE:
       return state.map((todo) => {
+        console.log(todo);
+        console.log(action);
         if (todo.id === action.id) {
           return { ...todo, isDone: action.isDone };
         }
