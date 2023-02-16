@@ -181,7 +181,7 @@ function Home() {
   //-----------------------------------------------------------------------------
   //삭제버튼
   const handleDel = (id) => {
-    alert('안');
+    alert('삭제시켜드려요');
     dispatch(createDel(id));
   };
 
@@ -201,11 +201,11 @@ function Home() {
       <StAllBox>
         <StTitleContentBox>
           <StP>제목 </StP>
-          <StInputBox value={title} onChange={handleTitleChange} type="text" /> &nbsp;
+          <StInputBox value={title} onChange={handleTitleChange} type="text" />
         </StTitleContentBox>
         <StTitleContentBox>
           <StP>내용</StP>
-          <StInputBox value={content} onChange={handleContentChange} type="text" />{' '}
+          <StInputBox value={content} onChange={handleContentChange} type="text" />
         </StTitleContentBox>
 
         <StAddButton onClick={handleAdd}>추가</StAddButton>
@@ -245,34 +245,36 @@ function Home() {
         </div>
         <>
           <StWorkingDone>Done..😌</StWorkingDone>
-          {data.map((item, i) => {
-            if (item.isDone === true) {
-              return (
-                <StMapBox key={item.id}>
-                  <StMapInputBox>{item.title}</StMapInputBox>
-                  <StMapInputBox>{item.content}</StMapInputBox>
-                  <StMapButtons>
-                    <StOneButton onClick={() => handleDel(data[i].id)}>❌</StOneButton>
-                    <StOneButton
-                      onClick={() => {
-                        movehandler(data[i].id, data[i].isDone);
-                      }}
-                    >
-                      ⭕
-                    </StOneButton>
-                    <StOneButton
-                      onClick={() => {
-                        navigate(`/${item.id}`);
-                        //navigate('/detail/${item.id}');
-                      }}
-                    >
-                      🐶
-                    </StOneButton>
-                  </StMapButtons>
-                </StMapBox>
-              );
-            }
-          })}
+          <StIngBox>
+            {data.map((item, i) => {
+              if (item.isDone === true) {
+                return (
+                  <StMapBox key={item.id}>
+                    <StMapInputBox>{item.title}</StMapInputBox>
+                    <StMapInputBox>{item.content}</StMapInputBox>
+                    <StMapButtons>
+                      <StOneButton onClick={() => handleDel(data[i].id)}>❌</StOneButton>
+                      <StOneButton
+                        onClick={() => {
+                          movehandler(data[i].id, data[i].isDone);
+                        }}
+                      >
+                        ⭕
+                      </StOneButton>
+                      <StOneButton
+                        onClick={() => {
+                          navigate(`/${item.id}`);
+                          //navigate('/detail/${item.id}');
+                        }}
+                      >
+                        🐶
+                      </StOneButton>
+                    </StMapButtons>
+                  </StMapBox>
+                );
+              }
+            })}
+          </StIngBox>
         </>
       </StWorkingDoneBox>
     </div>
