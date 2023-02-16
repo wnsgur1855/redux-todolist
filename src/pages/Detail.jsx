@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
+
 function Detail() {
   const data = useSelector((state) => {
     return state.todolist;
@@ -10,12 +11,15 @@ function Detail() {
 
   const navigate = useNavigate();
 
-    //어떤 데이터인지 찾아보기
+  //어떤 데이터인지 찾아보기
   const params = useParams(); //useParams의 사용용도: url의 파라미터 값을 가져오기 위해서이다.
   const founddata = data.find((item) => {
+    console.log('params파람스', params);
+    console.log('item아이템', item);
     return item.id === Number(params.id);
   });
-  console.log('id', founddata);
+
+  //console.log('id', founddata);
   //founddata: {id: 2, title: '점심 먹기', body: '점심 뭐먹지..?', isDone: false}
   // founddata.title
 
