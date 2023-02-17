@@ -26,8 +26,7 @@ function Home() {
           <Working title="Working..😎 " isDone={false} />
         </div>
         <>
-          <StWorkingDone>Done..😌</StWorkingDone>
-          <Working isDone={true} />
+          <Working title="Done...😌" isDone={true} />
         </>
       </StWorkingDoneBox>
     </div>
