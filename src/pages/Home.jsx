@@ -34,3 +34,4 @@ function Home() {
 }
 
 export default Home;
+//props로 title만 쓰고 보내도 그 안의 값만 변경해도 됐었꾸나
